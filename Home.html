@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PRODUCTO</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    nav {
+      background: #444;
+      padding: 10px;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    .form-container input, .form-container button {
+      padding: 10px;
+      margin: 5px;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Logo" class="logo">
+    <h1>PRODUCTO</h1>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Products</a>
+    <a href="#">About</a>
+  </nav>
+
+  <main>
+    <h2>Product Form</h2>
+    <div class="form-container">
+      <input type="text" id="productId" placeholder="Product ID">
+      <input type="text" id="productName" placeholder="Product Name">
+      <input type="number" id="productPrice" placeholder="Price">
+      <input type="number" id="productQuantity" placeholder="Quantity">
+      <button onclick="addProduct()">Add Product</button>
+    </div>
+
+    <button onclick="displayProducts()">Display Products</button>
+
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <footer>
+    © 2025 PRODUCTO Inc.
+  </footer>
+
+  <script>
+    let products = [];
+
+    function addProduct() {
+      const id = document.getElementById("productId").value;
+      const name = document.getElementById("productName").value;
+      const price = document.getElementById("productPrice").value;
+      const quantity = document.getElementById("productQuantity").value;
+
+      if (id && name && price && quantity) {
+        products.push({ id, name, price, quantity });
+        clearForm();
+        displayProducts();
+      }
+    }
+
+    function displayProducts() {
+      const tableBody = document.querySelector("#productTable tbody");
+      tableBody.innerHTML = "";
+
+      products.forEach((product, index) => {
+        const row = `<tr>
+          <td>${product.id}</td>
+          <td>${product.name}</td>
+          <td>${product.price}</td>
+          <td>${product.quantity}</td>
+          <td>
+            <button onclick="editProduct(${index})">Update</button>
+            <button onclick="deleteProduct(${index})">Delete</button>
+          </td>
+        </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    function deleteProduct(index) {
+      products.splice(index, 1);
+      displayProducts();
+    }
+
+    function editProduct(index) {
+      const product = products[index];
+      document.getElementById("productId").value = product.id;
+      document.getElementById("productName").value = product.name;
+      document.getElementById("productPrice").value = product.price;
+      document.getElementById("productQuantity").value = product.quantity;
+
+      products.splice(index, 1); // Remove old one so Add acts like update
+    }
+
+    function clearForm() {
+      document.getElementById("productId").value = "";
+      document.getElementById("productName").value = "";
+      document.getElementById("productPrice").value = "";
+      document.getElementById("productQuantity").value = "";
+    }
+  </script>
+
+</body>
+</html>
